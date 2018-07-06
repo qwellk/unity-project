@@ -27,6 +27,11 @@ public class Playercontroller : MonoBehaviour {
         {
             changeworld();
         }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            attack();
+        }
     }
 
     private void FixedUpdate()
@@ -86,13 +91,14 @@ public class Playercontroller : MonoBehaviour {
     private void attack()
     {
         Vector2 attpoint = new Vector2(GetComponent<Transform>().position.x+attackdis* GetComponent<Transform>().forward.x, GetComponent<Transform>().position.y);
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(attpoint,new Vector2(1f,1f),0);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(attpoint,new Vector2(1f,0.2f),0);
         foreach (Collider2D x in colliders)
         {
-            if (x.GetComponent<Rigidbody2D>())
+            print(x.transform.gameObject.layer);
+            if (x.transform.gameObject.layer == 8)
             {
-                Vector2 force = f * (x.transform.position - transform.position);
-                x.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
+                print("des");
+                Destroy(x.transform.gameObject);
             }
         }
     }
